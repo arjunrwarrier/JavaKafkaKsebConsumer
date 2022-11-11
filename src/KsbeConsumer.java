@@ -1,6 +1,8 @@
+import netscape.javascript.JSObject;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.json.JSONObject;
 
 import java.util.Arrays;
 import java.util.Properties;
@@ -22,6 +24,16 @@ public class KsbeConsumer {
             ConsumerRecords<String,String> records = consumer.poll(100);
             for(ConsumerRecord<String,String> record : records){
                 System.out.println(record.value());
+                System.out.println(String.valueOf(record.value()));
+                JSONObject obj = new JSONObject(record.value());
+                String userId = String.valueOf(obj.getInt("userid"));
+                String unit = String.valueOf(obj.getInt("unit"));
+                System.out.println(userId);
+                System.out.println(unit);
+
+
+
+
 
             }
 
