@@ -3,6 +3,7 @@ import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.json.JSONObject;
+import java.sql.*;
 
 import java.util.Arrays;
 import java.util.Properties;
@@ -30,6 +31,24 @@ public class KsbeConsumer {
                 String unit = String.valueOf(obj.getInt("unit"));
                 System.out.println(userId);
                 System.out.println(unit);
+
+                //adding db
+                try{
+                    Class.forName("com.mysql.jdbc.Driver");
+                    Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ksebdb","root","");
+                    String sql = "INSERT INTO `usages`( `consumerid`, `unit`, `datetime`) VALUES (?,?,now())";
+                    PreparedStatement stmt = con.prepareStatement(sql);
+                    stmt.setString(1,userId);
+                    stmt.setString(2,unit);
+                    stmt.executeUpdate();
+
+
+                }
+                catch (Exception e){
+                    System.out.println(e);
+                }
+
+
 
 
 
